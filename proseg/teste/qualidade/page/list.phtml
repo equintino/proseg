@@ -1,0 +1,39 @@
+<?php
+//~ Template for list.php
+// variables:
+//  $title - page title
+//  $status - status of TODOs to be displayed
+//  $todos - TODOs to be displayed
+?>
+<h1>
+    <img src="img/status/<?php echo $status; ?>.png" alt="" title="<?php echo Utils::capitalize($status); ?>" class="icon" />
+    <?php echo $title; ?>
+</h1>
+
+<?php if (empty($todos)): ?>
+    <p>Nenhum Registro encontrado.</p>
+<?php else: ?>
+    <ul class="list">
+        <?php foreach ($todos as $todo): ?>
+            <?php /* @var $todo Todo */ ?>
+            <?php $tooLate = $status == Todo::STATUS_PENDING && $todo->getDueOn() < new DateTime();?>
+            <li>
+                <?php if ($tooLate): ?>
+                    <img src="img/exclamation.png" alt="" title="Prazo vencido!" />
+                <?php endif; ?>
+                <img src="img/priority/<?php echo $todo->getPriority(); ?>.png" alt="Prioridade <?php echo $todo->getPriority(); ?>" title="Prioridade <?php echo $todo->getPriority(); ?>" />
+                <h3><a href="<?php echo Utils::createLink('detail', array('id' => $todo->getId())) ?>"><?php echo Utils::escape($todo->getTitle()); ?></a></h3>
+                <?php if ($todo->getDescricao()): ?>
+                    <p class="description"><?php echo Utils::escape($todo->getDescricao()); ?></p>
+                <?php endif; ?>
+                <p><span class="label">Número:</span> <?php echo Utils::escape($todo->getNumero()); ?></p>
+                <p><span class="label">Abertura RNC:</span> <?php echo Utils::escape(Utils::formatDateTime($todo->getCreatedOn())); ?></p>
+                <p><span class="label">Prazo:</span>
+                    <?php if ($tooLate): ?><span class="too-late"><?php endif; ?>
+                    <?php echo Utils::escape(Utils::formatDateTime($todo->getDueOn())); ?>
+                    <?php if ($tooLate): ?></span><?php endif; ?>
+                </p>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

@@ -1,0 +1,96 @@
+<?php
+//~ Template for add-edit.php
+// variables:
+//  $errors - validation errors
+//  $todo - submitted TODO
+//  $edit - true for EDIT, false for ADD
+function error_field($title, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $title) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+
+/* @var $todo Todo */
+?>
+
+<h1>
+    <?php if ($edit): ?>
+        <?php echo Utils::escape($Todo->getTitulo()); ?>
+    <?php else: ?>
+        Novo Registro de Não Conformidade
+    <?php endif; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<form action="#" method="post">
+  <table>
+    <fieldset>
+        <div class="field">   
+<!--
+            <tr><td><label>Número:<label></td>
+            <td><input type="text" name="rnc[numero]" value="<?php //echo Utils::escape($rnc->getNumero()); ?>"
+                   class="text<?php //echo error_field('numero', $errors); ?>"/></td></tr>
+            <tr><td><label>Título:</label></td>
+            <td><input type="text" name="rnc[titulo]" value="<?php //echo Utils::escape($rnc->getTitulo()); ?>"
+                       class="text<?php //echo error_field('titulo', $errors); ?>"/></td></tr>
+        <tr><td><label>Prazo:</label></td>
+           <td><input type="text" name="rnc[prazo_data]" value="<?php //echo Utils::escape($rnc->getPrazo()->format('j-n-Y')); ?>"
+                      class="text datepicker<?php //echo error_field('prazo', $errors); ?>" />
+            &nbsp;
+            <select name="rnc[prazo_hour]">
+            <?php //for ($i = 0; $i < 24; ++$i): ?>
+                <option value="<?php //echo $i; ?>"
+                        <?php //if ($rnc->getPrazo() && $i == $rnc->getPrazo()->format('H')): ?>
+                            selected="selected"
+                        <?php //endif; ?>
+                        ><?php //echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
+            <?php //endfor; ?>
+                </select>
+            <select name="rnc[prazo_minute]">
+            <?php //for ($i = 0; $i < 60; $i = $i + 15): ?>
+                <option value="<?php //echo $i; ?>"
+                        <?php //if ($rnc->getPrazo() && $i == $rnc->getPrazo()->format('i')): ?>
+                            selected="selected"
+                        <?php //endif; ?>
+                        ><?php //echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
+            <?php //endfor; ?>
+                </select></td></tr>
+-->
+        <tr><td><label>Prioridade:</label></td>
+            <td><select name="rnc[prioridade]">
+            <?php foreach (Todo::allPriorities() as $prioridade): ?>
+                <option value="<?php echo $prioridade; ?>"
+                        <?php if ($prioridade == $rnc->getPriority()): ?>
+                            selected="selected"
+                        <?php endif; ?>
+                        ><?php echo $prioridade; ?></option>
+            <?php endforeach; ?>
+                </select></td></tr>
+<!--
+        <tr><td><label>Detalhamento:</label></td>
+            <td><textarea name="rnc[detalhamento]" cols="1" rows="1"
+                          class="<?php //echo error_field('detalhamento', $errors); ?>"><?php //echo Utils::escape($rnc->getDetalhamento()); ?></textarea></td></tr>
+        <tr><td><label>Comentário:</label></td>
+            <td><textarea name="rnc[comentario]" cols="1" rows="1"
+                          class="<?php //echo error_field('comentario', $errors); ?>"><?php //echo Utils::escape($rnc->getComentario()); ?></textarea></td></tr>
+        <tr><td></td><td>
+-->
+        <!--<div class="wrapper">-->
+            <input type="submit" name="cancel" value="CANCEL" class="submit" /></td>
+        <td><input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" /></td></tr>
+        <!--</div>-->
+    </fieldset>
+  </table>
+</form>

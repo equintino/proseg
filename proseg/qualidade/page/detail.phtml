@@ -1,0 +1,92 @@
+<?php
+//~ Template for detail.php
+// variables:
+//  $todo - TODO to be displayed
+//  $tooLate - if the task should have been done already
+
+/* @var $todo Todo */
+?>
+
+<h1>
+    <?php if ($tooLate): ?>
+        <img src="img/exclamation.png" alt="" title="NC deveria já ter sido resolvida!" />
+    <?php endif; ?>
+    <?php echo Utils::escape($rnc->getCausas()); ?>
+</h1>
+
+<table class="detail">
+    <tr>
+        <th>Prioridade</th>
+        <td><img src="img/priority/<?php echo $rnc->getPrioridade(); ?>.png" alt="Prioridade <?php echo $rnc->getPrioridade(); ?>" title="Prioridade <?php echo $rnc->getPrioridade(); ?>" /></td>
+    </tr>
+    <tr>
+        <th>Registro</th>
+        <td><?php echo Utils::escape(Utils::formatDateTime($rnc->getAbertura())); ?></td>
+    </tr>
+    <tr>
+        <th>Prazo</th>
+        <td>
+            <?php if ($tooLate): ?><span class="too-late"><?php endif; ?>
+            <?php echo Utils::escape(Utils::formatDateTime($rnc->getPrazo())); ?>
+            <?php if ($tooLate): ?></span><?php endif; ?>
+        </td>
+    </tr>
+    <tr>
+        <th>Última Modificação</th>
+        <td><?php echo Utils::escape(Utils::formatDateTime($rnc->getUltimaModificacao())); ?></td>
+    </tr>
+    <tr>
+        <th>Descrição</th>
+        <td><?php echo Utils::escape($rnc->getDetalhamento()); ?></td>
+    </tr>
+    <tr>
+        <th>Comentário</th>
+        <td><?php echo Utils::escape($rnc->getComentario()); ?></td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td><img src="img/status/<?php echo $rnc->getStatus(); ?>.png" alt="" title="<?php echo Utils::capitalize($rnc->getStatus()); ?>" class="icon" /></td>
+    </tr>
+    <tr>
+        <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <div class="statuses">
+            <?php foreach (rnc::allStatuses() as $status): ?>
+                <?php if ($status != $rnc->getStatus()): ?>
+                    <a href="<?php echo Utils::createLink('altera-status', array('id' => $rnc->getId(), 'status' => $status)); ?>" title="Altera o status da RNC para <?php echo Utils::capitalize($status); ?>." class="change-status-link"
+                       ><img src="img/status/<?php echo $status; ?>.png" alt="" title="Alterar para <?php echo Utils::capitalize($status); ?>." class="icon" /></a>
+                <?php else: ?>
+                    <img src="img/status/<?php echo $status; ?>-disabled.png" alt="" title="Este RNC está <?php echo Utils::capitalize($status); ?>." class="icon" />
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+            <div class="actions">
+                <a href="<?php echo Utils::createLink('add-edit', array('id' => $rnc->getId())); ?>"><img src="img/action/edit.png" alt="" title="Edita" class="icon" /></a>
+                <a href="<?php echo Utils::createLink('delete', array('id' => $rnc->getId())); ?>" id="Exclui-Link"><img src="img/action/delete.png" alt="" title="Exclui" class="icon" /></a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <?php $backLink = Utils::createLink('list', array('status' => $rnc->getStatus())); ?>
+    <a href="<?php echo $backLink; ?>"><img src="img/action/back.png" alt="" title="Retornar à lista." class="icon"/></a>&nbsp;
+    <a href="<?php echo $backLink; ?>">Retornar à lista</a>
+</p>
+
+<div id="delete-dialog" title="Delete this TODO?">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Este RNC será excluído. Confirma?</p>
+</div>
+<div id="change-status-dialog">
+    <form id="change-status-form" method="post">
+        <fieldset>
+            <div class="field">
+                <label>Comentário:</label>
+                <textarea name="comment" cols="1" rows="1"></textarea>
+            </div>
+        </fieldset>
+    </form>
+</div>
