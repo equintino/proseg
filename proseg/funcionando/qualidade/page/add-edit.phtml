@@ -45,14 +45,13 @@ function error_field($title, array $errors) {
 <form action="#" method="post">
     <fieldset>
 	<div class="cadastro">
-		<table>
+		<table border=1 cellspacing=3  bordercolor="#ccc">
         <tr><td>
-            <label class="nome_tb">Número:</label>
+            <label class="col1">Número:</label>
 		</td><td>	
-            <input type="hidden" name="todo[numero]" value="<?php echo $numero; ?>" />	
-            <!--<input type="text" size='3px' name="todo[numero]" value="--><?php echo $numero; ?><!--" disabled /> --><!--class="text<?php //echo error_field('numero', $errors); ?>" />-->
+            <input type="hidden" name="todo[numero]" value="<?php echo $numero; ?>" class="text <?php echo error_field('numero', $errors); ?>" id="numero" />&nbsp&nbsp<?php echo $numero; ?>
 		</td><td>
-            <label class="nome_tb">Prazo:</label>
+            <label class="col3">Prazo de Retorno:</label>
 		</td><td>
             <input type="text" name="todo[due_on_date]" value="<?php echo Utils::escape($todo->getDueOn()->format('d/m/Y')); ?>"
                    class="text datepicker<?php echo error_field('due_on', $errors); ?>" />
@@ -80,12 +79,11 @@ function error_field($title, array $errors) {
             </select>-->
         </td></tr>	
         <tr><td>
-            <label class="nome_tb">Título:</label>
+            <label class="col1">Título:</label>
 		</td><td colspan=2>
-            <input type="text" name="todo[title]" value="<?php echo Utils::escape($todo->getTitle()); ?>" />
-                   <!--class="text<?php //echo error_field('title', $errors); ?>"/>-->
+            <input type="text" name="todo[title]" value="<?php echo Utils::escape($todo->getTitle()); ?>" class="text<?php echo error_field('title', $errors); ?>" id="titulo"/>
         </td><td>
-            <label class="nome_tb">Prioridade:</label>
+            <label>Prioridade:</label>
             <select name="todo[priority]">
             <?php foreach (Todo::allPriorities() as $priority): ?>
                 <option value="<?php echo $priority; ?>"
@@ -97,18 +95,18 @@ function error_field($title, array $errors) {
             </select>
         </td></tr>
        <tr><td>
-          <label class="nome_tb">Origem:</label>
+          <label class="col1">Origem:</label>
           <?php $origem=Utils::escape($todo->getOrigem()); ?>
 		</td><td>
           <select name="todo[origem]">
               <option value='<?php echo $origem;?>' selected><?php echo $origem ?></option>
-              <option value="Serviço não conforme">Serviço Não Conforme</option>
+              <option value="Serviço/Produto não conforme">Serviço/Produto Não Conforme</option>
               <option value="Reclamação do cliente">Reclamação do Cliente</option>
               <option value="Auditoria">Auditoria</option>
               <option value="Outros">Outros</option>
           </select>
         </td><td>
-          <label class="nome_tb">Tipo de Ação:</label>
+          <label>Tipo de Ação:</label>
 		</td>  
           <?php $tipoacao=Utils::escape($todo->getTipoacao()); ?>
 		<td>  
@@ -122,20 +120,14 @@ function error_field($title, array $errors) {
         <tr><td colspan=2>
             <font color="#4c7cbd"><b>Processo ou Setor Envolvido:</b></font>
 		</td><td colspan=2>
-            <input type="text" name="todo[processo]" value="<?php echo Utils::escape($todo->getProcesso()); ?>"
-                   class="text<?php echo error_field('processo', $errors); ?>"/>
+            <input type="text" name="todo[processo]" value="<?php echo Utils::escape($todo->getProcesso()); ?>" size="45px" />
+                  <!-- class="text<?php //echo error_field('processo', $errors); ?>"/>-->
         </td></tr>
         <tr><td colspan=2>
             <font color="#4c7cbd"><b>Responável pela Identificação:</b></font>
 		</td><td colspan=2>
-            <input type="text" name="todo[identificador]" value="<?php echo Utils::escape($todo->getIdentificador()); ?>"
-                   class="text<?php echo error_field('identificador', $errors); ?>"/>
-        </td></tr>
-        <tr><td colspan=2>
-            <font color="#4c7cbd"><b>Causa da Não Conformidade:</b></font>
-		</td><td colspan=2>
-            <input type="text" name="todo[causa]" value="<?php echo Utils::escape($todo->getCausa()); ?>"
-                   class="text<?php echo error_field('causa', $errors); ?>"/>
+            <input type="text" name="todo[identificador]" value="<?php echo Utils::escape($todo->getIdentificador()); ?>" size="45"/>
+                   <!--class="text<?php //echo error_field('identificador', $errors); ?>"/>-->
         </td></tr>
 		<input type='hidden' name='todo[description]' value='<?php echo Utils::escape($todo->getDescription()); ?>'/>
        <!-- <div class="field">
@@ -143,12 +135,20 @@ function error_field($title, array $errors) {
             <textarea name="todo[description]" cols="1" rows="1"
                       class="<?php //echo error_field('description', $errors); ?>"><?php //echo Utils::escape($todo->getDescription()); ?></textarea>
         </div> -->
-        <tr><td>
-            <label class="nome_tb">Detalhamento:</label>
-		</td><td colspan=3>
+        <tr><td colspan="4">
+            <label>Detalhamento do Registro de Não Conformidade e Evidências Encontradas:</label>
+            </td></tr>
+        <tr><td colspan=4>
             <textarea name="todo[descricao]" cols="1" rows="1"
                       class="<?php echo error_field('descricao', $errors); ?>"><?php echo Utils::escape($todo->getDescricao()); ?></textarea>	
-        </td></tr>	
+        </td></tr>
+        <tr><td colspan="4">
+            <font color="#4c7cbd"><b>Causa da Não Conformidade:(Aplicação dos 5 porquês)</b></font>
+            </td></tr>
+		<tr><td colspan=4>
+                        <textarea name="todo[causa]" ><?php echo Utils::escape($todo->getCausa()); ?></textarea>
+                   <!--class="text<?php //echo error_field('causa', $errors); ?>"/>-->
+        </td></tr>
 		<input type='hidden' name='todo[comment]' value='<?php echo Utils::escape($todo->getComment()); ?>'/>
         <!--<tr><td>
             <label class="nome_tb">Comentário:</label>
@@ -157,14 +157,15 @@ function error_field($title, array $errors) {
                       class="<?php //echo error_field('comment', $errors); ?>"><?php //echo Utils::escape($todo->getComment()); ?></textarea>
         </td></tr>-->
         <tr><td>
-            <label class="nome_tb">Ação Imediata:</label>
+            <label>Ação Imediata:(Correção)</label>
 		</td><td colspan=3>
-            <input type='text' name="todo[imediata]" class="<?php echo error_field('imediata', $errors); ?>" value='<?php echo Utils::escape($todo->getImediata()); ?>' />
+            <input type='text' name="todo[imediata]" class="<?php echo error_field('imediata', $errors); ?>" value='<?php echo Utils::escape($todo->getImediata()); ?>' id="imediata"/>
         </td></tr>
-        <tr><td>
-            <label class="nome_tb">Ação Corretiva:</label>
-		</td><td colspan=3>
-            <input type='text' name="todo[corretiva]" class="<?php echo error_field('corretiva', $errors); ?>" value='<?php echo Utils::escape($todo->getCorretiva()); ?>' />
+        <tr><td colspan="4">
+            <label>Ação Corretiva ou Preventiva:</label>
+            </td></tr>
+        <tr><td colspan=4>
+                <textarea name="todo[corretiva]" class="<?php echo error_field('corretiva', $errors); ?>" ><?php echo Utils::escape($todo->getCorretiva()); ?></textarea>
         </td></tr>
 		</table>
 	</div>	
