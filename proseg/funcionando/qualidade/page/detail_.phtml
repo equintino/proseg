@@ -39,10 +39,11 @@
         <th>Descrição</th>
         <td><?php echo Utils::escape($todo->getDescription()); ?></td>
     </tr>
-    <tr>
-        <th>Comentário</th>
+    <?php if(Utils::escape($todo->getComment())): ?>
+        <tr><th>Comentário</th>
         <td><?php echo Utils::escape($todo->getComment()); ?></td>
-    </tr>
+        </tr>
+    <?php endif: ?>
     <tr>
         <th>Status</th>
         <td><img src="img/status/<?php echo $todo->getStatus(); ?>.png" alt="" title="<?php echo Utils::capitalize($todo->getStatus()); ?>" class="icon" /></td>
