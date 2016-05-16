@@ -108,8 +108,8 @@ ul.list {
 .list li img {
     float: left;
     margin: -3px 15px 0 0;
-    width: 20px;
-    height: 20px;
+    #width: 18px;
+    #height: 18px;
 }
 .list p.description {
     margin-bottom: 5px;
@@ -217,7 +217,7 @@ form input.submit {
     margin-left: 5px;
     width: 70px;
     font-weight: bold;
-	box-shadow: 10px 10px 5px #888888;
+    box-shadow: 10px 10px 5px #888888;
 }
 form input.submit:hover {
     background-color: #ccc;
@@ -343,7 +343,7 @@ table.detail td {
 }
 
 .icon2 {
-    #width: 1px;
+    width: 16px;
     height: 16px;
     margin: 0px 2px;
 }

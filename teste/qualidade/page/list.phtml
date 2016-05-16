@@ -8,7 +8,7 @@
 
 ?>
 <h1>
-    <img src="img/status/<?php echo $status; ?>.png" alt="" title="<?php echo Utils::capitalize($status); ?>" class="icon2" />
+    <img src="img/status/<?php echo $status; ?>.png" alt="" title="<?php echo Utils::capitalize($status); ?>" class="icon" />
     <?php echo $title; ?>
 </h1>
 
@@ -27,10 +27,10 @@
             ?> 
             <li>
                 <?php if ($tooLate): ?>
-                    <img src="img/exclamation.png" alt="" title="Prazo esgotado!" />
+                    <img src="img/exclamation.png" alt="" title="Prazo esgotado!" class="icon"/>
                 <?php endif; ?>
                 <?php if (Utils::escape($todo->getAndamento())): ?>
-                    <img src="img/status/ANDAMENTO.png" alt="" title="Em Implementação!" />
+                    <img src="img/status/ANDAMENTO.png" alt="" title="Em Implementação!" class="icon"/>
                 <?php endif; ?>
                 <img src="img/priority/<?php echo $todo->getPriority(); ?>.png" alt="Prioridade <?php echo $todo->getPriority(); ?>" title="Prioridade <?php echo $todo->getPriority(); ?>" />
                 <h3><a href="<?php echo Utils::createLink('detail', array('id' => $todo->getId())) ?>"><?php echo Utils::escape($todo->getTitle()); ?></a></h3>

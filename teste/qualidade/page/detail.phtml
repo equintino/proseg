@@ -5,15 +5,7 @@
 //  $tooLate - if the task should have been done already
 
 /* @var $todo Todo */
-?>
-
-<h1>
-    <?php if ($tooLate): ?>
-        <img src="img/exclamation.png" alt="" title="Prazo esgotado!" />
-    <?php endif; ?>
-    <?php echo Utils::escape($todo->getTitle()); ?>
-</h1>
-<?php 
+// Mapeando os campos
     $banco = 'white';
     $campo = array(
         'Número' => Utils::escape($todo->getNumero()),
@@ -37,6 +29,19 @@
         'Conclusão' => Utils::escape(Utils::formatDateTime($todo->getEficazData())),
         'Novo RNC' => Utils::escape($todo->getNovoRnc()),
     );
+?>
+
+<h1>
+    <?php if ($tooLate): 
+        if($todo->getEliminacao() == $todo->getCreatedOn())
+            if($todo->getEliminacao_novo() == $todo->getCreatedOn())
+                if($todo->getEficazData() == $todo->getCreatedOn())
+        : ?>
+        <img src="img/exclamation.png" alt="" title="Prazo esgotado!" />
+    <?php endif; endif;?>
+    <?php echo Utils::escape($todo->getTitle()); ?>
+</h1>
+<?php
     if(array_key_exists('Número',$campo)){
         //echo "Número existe<br>";
     }
