@@ -108,6 +108,7 @@ final class TodoDao {
                         break;
                     case Todo::STATUS_DONE:
                     case Todo::STATUS_VOIDED:
+                    case Todo::STATUS_CANCELADO:
                         $orderBy = 'due_on DESC, priority';
                         break;
                     default:
@@ -119,7 +120,7 @@ final class TodoDao {
         return $sql;
     }
     private function getFindSql2(TodoSearchCriteria $search = null) {
-        $sql = 'SELECT * FROM todo WHERE deleted = 0 ';
+        $sql = 'SELECT * FROM todo WHERE 1';
         $orderBy = 'id';
         if ($search !== null) {
             if ($search->getStatus() !== null) {
@@ -140,15 +141,21 @@ final class TodoDao {
         $todo->setCreatedOn($now);
         $todo->setLastModifiedOn($now);
         $todo->setStatus(Todo::STATUS_PENDING);
+        $todo->setAndamento(Todo::ANDAMENTO);
         
 ///// Configurar a $sql nos campos para inclusão no banco //////
         
         $sql = '
-            INSERT INTO todo (id, priority, created_on, last_modified_on, due_on, title, comment, status, deleted, description, descricao, numero, origem, tipoacao, processo, identificador, causa, imediata, corretiva)
-                VALUES (:id, :priority, :created_on, :last_modified_on, :due_on, :title, :comment, :status, :deleted, :description, :descricao, :numero, :origem, :tipoacao, :processo, :identificador, :causa, :imediata, :corretiva)';
+            INSERT INTO todo (id, priority, created_on, last_modified_on, due_on, title, comment, status, deleted, description, descricao, numero, origem, tipoacao, processo, identificador, causa, imediata, corretiva, implementador, eliminacao, eliminacao_novo, resp_verificacao, reg_eficacia, eficaz, eficaz_data, novo_rnc, andamento)
+                VALUES (:id, :priority, :created_on, :last_modified_on, :due_on, :title, :comment, :status, :deleted, :description, :descricao, :numero, :origem, :tipoacao, :processo, :identificador, :causa, :imediata, :corretiva, :implementador, :eliminacao, :eliminacao_novo, :resp_verificacao, :reg_eficacia, :eficaz, :eficaz_data, :novo_rnc, :andamento)';
         return $this->execute($sql, $todo);
     }
-
+    private function insert_user(Todo $todo){
+        $sql = '
+            INSERT INTO usuario (id, nome, funcao, matricula, email, setor, login)
+            VALUES (:id, :nome, :funcao, :matricula, :email, :setor, :login)';
+        return $this->execute($sql, $todo);
+    }
     /**
      * @return Todo
      * @throws Exception
@@ -173,7 +180,16 @@ final class TodoDao {
                 identificador = :identificador,
                 causa = :causa,
                 imediata = :imediata,
-                corretiva = :corretiva
+                corretiva = :corretiva,
+                implementador = :implementador,
+                eliminacao = :eliminacao,
+                eliminacao_novo = :eliminacao_novo,
+		resp_verificacao = :resp_verificacao,
+		reg_eficacia = :reg_eficacia,
+		eficaz = :eficaz,
+		eficaz_data = :eficaz_data,
+		novo_rnc = :novo_rnc,
+                andamento = :andamento
             WHERE
                 id = :id';
         return $this->execute($sql, $todo);
@@ -216,7 +232,16 @@ final class TodoDao {
             ':identificador' => $todo->getIdentificador(),
             ':causa' => $todo->getCausa(),
             ':imediata' => $todo->getImediata(),
-            ':corretiva' => $todo->getCorretiva()
+            ':corretiva' => $todo->getCorretiva(),
+            ':implementador' => $todo->getImplementador(),
+            ':eliminacao' => self::formatDateTime($todo->getEliminacao()),
+            ':eliminacao_novo' => self::formatDateTime($todo->getEliminacao_novo()),
+            ':resp_verificacao' => $todo->getRespVerificacao(),
+            ':reg_eficacia' => $todo->getRegEficacia(),
+            ':eficaz' => $todo->getEficaz(),
+            ':eficaz_data' => self::formatDateTime($todo->getEficazData()),
+            ':novo_rnc' => $todo->getNovoRnc(),
+            ':andamento' => $todo->getAndamento()
         );
         if ($todo->getId()) {
             // unset created date, this one is never updated

@@ -3,11 +3,37 @@
     margin: 0;
     padding: 0;
 }
-table, td{
-	#border: solid 1px blue;
+table{
+	#border: solid 1px #ccc;
+	color: graytext;
+    font-weight: bolder;
+}
+#titulo{
+    width: 98%;
+}
+#imediata{
+    width: 99%;
+    #padding: 8px;
+}
+#campo{
+    width: 99%;
+    padding: 2px;
+}
+.obs{
+	font-size: 9px;
+	font-style: italic;
+	color: red;
+	text-align: right;
 }
 .nome_tb{
-	text-align: right;
+	#width: 90px;
+}
+.col1{
+	#width: 10px;
+}
+.col3{
+	#text-align: right;
+	#width: 110px;
 }
 .cadastro{
 	box-shadow: 10px 10px 5px #888888;
@@ -82,8 +108,8 @@ ul.list {
 .list li img {
     float: left;
     margin: -3px 15px 0 0;
-    width: 20px;
-    height: 20px;
+    #width: 18px;
+    #height: 18px;
 }
 .list p.description {
     margin-bottom: 5px;
@@ -93,11 +119,11 @@ ul.list {
 }
 
 /** forms **/
-input, textarea, select {
+input, textarea {
     font-family: Tahoma, Geneva, sans-serif;
     font-size: 1em;
 }
-input, select {
+input {
     vertical-align: middle;
     font-weight: normal;
 }
@@ -113,37 +139,88 @@ form fieldset {
 form .field {
     clear: both;
 }
+.comentario{
+    width: 100%;
+}
 form label {
     float: left;
-    width: 97px;
+    #width: 97px;
     line-height: 18px;
-    padding-bottom: 8px;
+    padding: 1px;
     font-weight: bold;
     color: #4c7cbd;
 }
 input.text {
-    width: 170px;
+    width: 70px;
     padding: 1px 0 1px 3px;
     border: 1px solid #d6d6d6;
     color: #414141;
     float: left;
 }
 textarea {
-    width: 340px;
-    height: 70px;
+    width: 99%;
+    height: 45px;
     padding: 1px 0 1px 3px;
     border: 1px solid #d6d6d6;
     color: #414141;
-    margin-bottom: 15px;
+    #margin-bottom: 15px;
     overflow: auto;
     float: left;
 }
+input{
+    border: 1px solid #d6d6d6;
+    color: #414141;
+}
+select{
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 1em;
+    vertical-align: middle;
+    font-weight: normal;
+    border: 1px solid #d6d6d6;
+    color: #414141;
+	padding-right: 3px;
+    border-radius: 3px;
+    background-color: #fff;
+    #background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+}
+/*
+.select-style {
+    padding: 5px 8px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+.select-style {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    #width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+
+    background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+*/
 form input.submit {
     float: right;
     color: #4c7cbd;
     margin-left: 5px;
     width: 70px;
     font-weight: bold;
+    box-shadow: 10px 10px 5px #888888;
+}
+form input.submit:hover {
+    background-color: #ccc;
 }
 .errors {
     margin-bottom: 20px;
@@ -260,6 +337,12 @@ table.detail td {
 }
 
 .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px 2px;
+}
+
+.icon2 {
     width: 16px;
     height: 16px;
     margin: 0px 2px;

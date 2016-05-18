@@ -1,0 +1,93 @@
+<?php 
+    //echo Utils_user::escape($user->getMatricula());
+            
+//~ Template para add-edit.php
+// variables:
+//  $errors - validação de erros
+//  $todo - submitted TODO
+//  $edit - true para EDITAR, false para GRAVAR
+function error_field($title, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $title) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+
+/* @var $todo Todo */
+?>
+
+<h1>
+    <?php if ($edit): ?>
+        <?php echo Utils_user::escape($user->getNome()); ?>
+    <?php else: ?>
+        Cadastro de Usuários
+    <?php endif; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<form action="#" method="post">
+    <fieldset>
+	<div class="cadastro">
+		<table border=1 cellspacing=3  bordercolor="#ccc">
+        <!--<tr><td>
+            <label>ID:</label>
+	</td><td>	
+            <input type="hidden" name="user[id]" value="<?php //echo Utils_user::escape($user->getId()); ?>" class="text <?php //echo error_field('id', $errors); ?>" id="id" />&nbsp&nbsp<?php //echo $id; ?>
+	</td></tr>-->
+        <tr><td>
+            <font color="#4c7cbd"><b>Matrícula:</b></font>
+		</td><td>
+            <input type="text" name="user[matricula]" value="<?php 
+            echo Utils_user::escape($user->getMatricula());
+        ?>" />
+        </td></tr>
+        <tr><td>
+            <label>Nome:</label>
+		</td><td>
+            <input type="text" name="user[nome]" value="<?php echo Utils_user::escape($user->getNome()); ?>" class="text<?php echo error_field('nome', $errors); ?>" id="nome"/>
+        </td></tr>
+       <tr><td>
+          <label>Função:</label>
+          <?php $funcao=Utils::escape($user->getFuncao()); ?>
+		</td><td>
+          <select name="user[funcao]" class='select-style'>
+              <option value='<?php //echo $funcao;?>' selected><?php echo $funcao ?></option>
+              <option value="auditor">Auditor</option>
+              <option value="diretor">Diretor</option>
+              <option value="gerente">Gerente</option>
+              <option value="funcionario">Funcionário</option>
+          </select>
+        </td></tr>
+        <tr><td>
+            <font color="#4c7cbd"><b>E-mail:</b></font>
+		</td><td>
+            <input type="text" name="user[email]" value="<?php echo Utils_user::escape($user->getEmail()); ?>" />
+        </td></tr>
+        <tr><td>
+            <label>Setor:</label>
+            </td><td>
+            <input name="user[setor]" value="<?php echo Utils_user::escape($user->getSetor()); ?>" />
+        </td></tr>
+        <tr><td>
+        <font color="#4c7cbd"><b>Login:</b></font>
+        </td><td>
+           <input name="user[login]" value="<?php echo Utils_user::escape($user->getLogin()); ?>" />        </td></tr>
+</table>
+	</div>	
+        <div class="wrapper">
+            <input type="submit" name="cancel" value="CANCEL" class="submit" />
+            <input type="submit" name="save" value="<?php echo $edit ? 'EDITAR' : 'GRAVAR'; ?>" class="submit" />
+        </div>
+    </fieldset>
+</form>

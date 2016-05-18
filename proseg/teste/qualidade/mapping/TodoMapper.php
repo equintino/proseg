@@ -44,14 +44,35 @@ final class TodoMapper {
                 $todo->setDueOn($dueOn);
             }
         }
+        if (array_key_exists('eliminacao', $properties)) {
+            $eliminacao = self::createDateTime($properties['eliminacao']);
+            if ($eliminacao) {
+                $todo->setEliminacao($eliminacao);
+            }
+        }
+        if (array_key_exists('eliminacao_novo', $properties)) {
+            $eliminacao_novo = self::createDateTime($properties['eliminacao_novo']);
+            if ($eliminacao_novo) {
+                $todo->setEliminacao_novo($eliminacao_novo);
+            }
+        }
         if (array_key_exists('last_modified_on', $properties)) {
             $lastModifiedOn = self::createDateTime($properties['last_modified_on']);
             if ($lastModifiedOn) {
                 $todo->setLastModifiedOn($lastModifiedOn);
             }
         }
+        if (array_key_exists('eficaz_data', $properties)) {
+            $eficaz_data = self::createDateTime($properties['eficaz_data']);
+            if ($eficaz_data) {
+                $todo->setEficazData($eficaz_data);
+            }
+        }
         if (array_key_exists('title', $properties)) {
             $todo->setTitle(trim($properties['title']));
+        }
+        if (array_key_exists('andamento', $properties)) {
+            $todo->setAndamento($properties['andamento']);
         }
         if (array_key_exists('description', $properties)) {
             $todo->setDescription(trim($properties['description']));
@@ -91,6 +112,39 @@ final class TodoMapper {
         }
         if (array_key_exists('corretiva', $properties)){
             $todo->setCorretiva($properties['corretiva']);
+        }
+        if (array_key_exists('implementador', $properties)){
+            $todo->setImplementador($properties['implementador']);
+        }
+        if (array_key_exists('reg_eficacia', $properties)){
+            $todo->setRegEficacia($properties['reg_eficacia']);
+        }
+        if (array_key_exists('resp_verificacao', $properties)){
+            $todo->setRespVerificacao($properties['resp_verificacao']);
+        }
+        if (array_key_exists('novo_rnc', $properties)) {
+            $todo->setNovoRnc($properties['novo_rnc']);
+        }
+        if (array_key_exists('eficaz', $properties)) {
+            $todo->setEficaz($properties['eficaz']);
+        }
+        if (array_key_exists('nome', $properties)){
+            $todo->setNome($properties['nome']);
+        }
+        if (array_key_exists('funcao', $properties)){
+            $todo->setFuncao($properties['funcao']);
+        }
+        if (array_key_exists('matricula', $properties)){
+            $todo->setMatricula($properties['matricula']);
+        }
+        if (array_key_exists('email', $properties)){
+            $todo->setEmail($properties['email']);
+        }
+        if (array_key_exists('setor', $properties)){
+            $todo->setSetor($properties['setor']);
+        }
+        if (array_key_exists('login', $properties)){
+            $todo->setLogin($properties['login']);
         }
     }
     private static function createDateTime($input) {

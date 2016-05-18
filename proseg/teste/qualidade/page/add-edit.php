@@ -3,7 +3,6 @@ $errors = array();
 $todo = null;
 $edit = array_key_exists('id', $_GET);
 
-
 if ($edit) {
     $todo = Utils::getTodoByGetId();
 } else {
@@ -11,9 +10,14 @@ if ($edit) {
     $todo = new Todo();
     $todo->setPriority(Todo::PRIORITY_MEDIUM);
     $dueOn = new DateTime("+5 day", new DateTimeZone('America/Sao_Paulo'));
+    $eliminacaoPrazo = new DateTime("+30 day", new DateTimeZone('America/Sao_Paulo'));
     $dueOn->setTime(0, 0, 0);
     $todo->setDueOn($dueOn);
+    $todo->setEliminacao($todo->getCreatedOn());
+    $todo->setEliminacao_novo($todo->getCreatedOn());
+    $todo->setEficazData($todo->getCreatedOn());
 }
+
 
 if (array_key_exists('cancel', $_POST)) {
     // redirect
@@ -34,21 +38,27 @@ if (array_key_exists('cancel', $_POST)) {
         'identificador' => $_POST['todo']['identificador'],
         'causa' => $_POST['todo']['causa'],
         'imediata' => $_POST['todo']['imediata'],
-        'corretiva' => $_POST['todo']['corretiva']
+        'corretiva' => $_POST['todo']['corretiva'],
+        'implementador' => $_POST['todo']['implementador'],
+        'eliminacao' => $_POST['todo']['eliminacao']. ' ' . date("H").":".$_POST['todo']['eliminacao_min'] . ':00',
+        'eliminacao_novo' => $_POST['todo']['eliminacao_novo']. ' ' . date("H").":".$_POST['todo']['eliminacao_novo_min'] . ':00',
+		'reg_eficacia' => $_POST['todo']['reg_eficacia'],
+		'resp_verificacao' => $_POST['todo']['resp_verificacao'],
+		'eficaz_data' => $_POST['todo']['eficaz_data']. ' ' . date("H").":".$_POST['todo']['eficaz_data_min'] . ':00',
+		'novo_rnc' => $_POST['todo']['novo_rnc'],
+		'eficaz' => @$_POST['todo']['eficaz']
     );
-        ;
-    // map
+    // mapear
     TodoMapper::map($todo, $data);
-    // validate
+    // validar
     $errors = TodoValidator::validate($todo);
-    // validate
   
     if (empty($errors)) {
-        // save
+        // gravar
         $dao = new TodoDao();
         $todo = $dao->save($todo);
         Flash::addFlash('RNC salvo com sucesso.');
-        // redirect
+        // redirecionar
         Utils::redirect('detail', array('id' => $todo->getId()));
     }
 }

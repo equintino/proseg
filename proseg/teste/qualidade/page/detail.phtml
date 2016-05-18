@@ -5,90 +5,90 @@
 //  $tooLate - if the task should have been done already
 
 /* @var $todo Todo */
+// Mapeando os campos
+    $banco = 'white';
+    $campo = array(
+        'Número' => Utils::escape($todo->getNumero()),
+        'Abertura' => Utils::escape(Utils::formatDateTime($todo->getCreatedOn())),
+        'Prazo' => Utils::escape(Utils::formatDateTime($todo->getDueOn())),
+        'Detalhamento' => Utils::escape($todo->getDescricao()),
+        'Origem' => Utils::escape($todo->getOrigem()),
+        'Tipo Ação' => Utils::escape($todo->getTipoacao()),
+        'Processo' => Utils::escape($todo->getProcesso()),
+        'Responsável pela Identificação' => Utils::escape($todo->getIdentificador()),
+        'Causa da Não Conformidade' => Utils::escape($todo->getCausa()),
+        'Ação Imediata' => Utils::escape($todo->getImediata()),
+        'Ação Corretiva' => Utils::escape($todo->getCorretiva()),
+        'Responsável pela Implementação' => Utils::escape($todo->getImplementador()),
+        'Prazo para a Eliminação' => Utils::escape(Utils::formatDateTime($todo->getEliminacao())),
+        'Novo Prazo' => Utils::escape(Utils::formatDateTime($todo->getEliminacao_novo())),
+        'Registro da Verificação da Eficácia' => Utils::escape($todo->getComment()),
+        'Responsável pela Verificação' => Utils::escape($todo->getRespVerificacao()),
+        'A Ação foi Eficaz?' => Utils::escape($todo->getEficaz()),
+        'Conclusão' => Utils::escape(Utils::formatDateTime($todo->getEficazData())),
+        'Novo RNC' => Utils::escape($todo->getNovoRnc()),
+    );
 ?>
 
 <h1>
-    <?php if ($tooLate): ?>
-        <img src="img/exclamation.png" alt="" title="Deveria já ter sido resolvido!" />
-    <?php endif; ?>
+    <?php if ($tooLate): 
+        if($todo->getEliminacao() == $todo->getCreatedOn())
+            if($todo->getEliminacao_novo() == $todo->getCreatedOn())
+                if($todo->getEficazData() == $todo->getCreatedOn())
+        : ?>
+        <img src="img/exclamation.png" alt="" title="Prazo esgotado!" />
+    <?php endif; endif;?>
     <?php echo Utils::escape($todo->getTitle()); ?>
 </h1>
-
-<table class="detail">
-    <tr>
-        <th>Número</th>
-        <td><?php echo Utils::escape($todo->getNumero()); ?></td></tr> 
-    <tr>
-        <th>Prioridade</th>
-        <td><img src="img/priority/<?php echo $todo->getPriority(); ?>.png" alt="Prioridade <?php echo $todo->getPriority(); ?>" title="Prioridade <?php echo $todo->getPriority(); ?>" /></td>
-    </tr>
-    <tr>
-        <th>Abertura</th>
-        <td><?php echo Utils::escape(Utils::formatDateTime($todo->getCreatedOn())); ?></td>
-    </tr>
-    <tr>
-        <th>Prazo</th>
-        <td>
-            <?php if ($tooLate): ?><span class="too-late"><?php endif; ?>
-            <?php echo Utils::escape(Utils::formatDateTime($todo->getDueOn())); ?>
-            <?php if ($tooLate): ?></span><?php endif; ?>
-        </td>
-    </tr>
-    <tr>
-        <th>Última Modificação</th>
-        <td><?php echo Utils::escape(Utils::formatDateTime($todo->getLastModifiedOn())); ?></td>
-    </tr>
-    <tr>
-        <th>Detalhamento</th>
-        <td><?php echo Utils::escape($todo->getDescricao()); ?></td>
-    </tr>
-    <tr>
-        <th>Comentário</th>
-        <td><?php echo Utils::escape($todo->getComment()); ?></td>
-    </tr>
-    <tr>
-        <th>Origem</th>
-        <td><?php echo Utils::escape($todo->getOrigem()); ?></td>
-    </tr>
-    <tr>
-        <th>Tipo Ação</th>
-        <td><?php echo Utils::escape($todo->getTipoacao()); ?></td>
-    </tr>
-    <tr>
-        <th>Processo</th>
-        <td><?php echo Utils::escape($todo->getProcesso()); ?></td>
-    </tr>
-    <tr>
-        <th>Responsável pela Identificação</th>
-        <td><?php echo Utils::escape($todo->getIdentificador()); ?></td>
-    </tr>
-    <tr>
-        <th>Causa da Não Conformidade</th>
-        <td><?php echo Utils::escape($todo->getCausa()); ?></td>
-    </tr>
-    <tr>
-        <th>Ação Imediata</th>
-        <td><?php echo Utils::escape($todo->getImediata()); ?></td>
-    </tr>
-    <tr>
-        <th>Ação Corretiva</th>
-        <td><?php echo Utils::escape($todo->getCorretiva()); ?></td>
-    </tr>
+<table>
+<?php
+    if(array_key_exists('Número',$campo)){
+        //echo "Número existe<br>";
+    }
+    echo "<table class=\"detail\">";
+            $x = 1;
+        foreach($campo as $key => $item){
+            if($item <> null){
+                if(($key=='Prazo para a Eliminação')||($key=='Novo Prazo')||($key=='Conclusão')){
+                    if($item<>Utils::escape(Utils::formatDateTime($todo->getCreatedOn()))){
+                        if($x % 2 == 0){
+                            $cor='white';
+                        }else{
+                            $cor='';
+                        }
+                    echo "<tr bgcolor=".$cor." >"
+                        . "<th width=200px>".$key." </th>
+                        <td>".$item."</td>
+                        </tr>";
+                        $x++;
+                    }
+                }else{
+                   if($x % 2 == 0){
+                      $cor='white';
+                   }else{
+                      $cor='';
+                   }
+                    echo "<tr bgcolor=".$cor." >"
+                        . "<th width=200px>".$key." </th>
+                        <td>".$item."</td>
+                        </tr>";
+                        $x++;
+                }
+            }
+        }
+?>
     <tr>
         <th>Status</th>
         <td><img src="img/status/<?php echo $todo->getStatus(); ?>.png" alt="" title="<?php echo Utils::capitalize($todo->getStatus()); ?>" class="icon" /></td>
-    </tr>
-    <tr>
+    </tr><tr>
         <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr>
+    </tr><tr>
         <th></th>
         <td>
             <div class="statuses">
             <?php foreach (Todo::allStatuses() as $status): ?>
                 <?php if ($status != $todo->getStatus()): ?>
-                    <a href="<?php echo Utils::createLink('altera-status', array('id' => $todo->getId(), 'status' => $status)); ?>" title="Altera o status da RNC para <?php echo Utils::capitalize($status); ?>." class="change-status-link"
-                       ><img src="img/status/<?php echo $status; ?>.png" alt="" title="Alterar para <?php echo Utils::capitalize($status); ?>." class="icon" /></a>
+                    <a href="<?php echo Utils::createLink('altera-status', array('id' => $todo->getId(), 'status' => $status)); ?>" title="Altera o status da RNC para <?php echo Utils::capitalize($status); ?>." class="change-status-link" ><img src="img/status/<?php echo $status; ?>.png" alt="" title="Alterar para <?php echo Utils::capitalize($status); ?>." class="icon" /></a>
                 <?php else: ?>
                     <img src="img/status/<?php echo $status; ?>-disabled.png" alt="" title="Este RNC está <?php echo Utils::capitalize($status); ?>." class="icon" />
                 <?php endif; ?>
@@ -96,7 +96,7 @@
             </div>
             <div class="actions">
                 <a href="<?php echo Utils::createLink('add-edit', array('id' => $todo->getId())); ?>"><img src="img/action/edit.png" alt="" title="Edita" class="icon" /></a>
-                <a href="<?php echo Utils::createLink('delete', array('id' => $todo->getId())); ?>" id="Exclui-Link"><img src="img/action/delete.png" alt="" title="Exclui" class="icon" /></a>
+                <a href="<?php echo Utils::createLink('delete', array('id' => $todo->getId())); ?>" id="delete-link"><img src="img/action/delete.png" alt="" title="Exclui" class="icon" /></a>
             </div>
         </td>
     </tr>
@@ -108,15 +108,15 @@
     <a href="<?php echo $backLink; ?>">Retornar à lista</a>
 </p>
 
-<div id="delete-dialog" title="Delete this TODO?">
+<div id="delete-dialog" title="Esclui este RNC?">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Este RNC será excluído. Confirma?</p>
 </div>
 <div id="change-status-dialog">
     <form id="change-status-form" method="post">
         <fieldset>
             <div class="field">
-                <label>Comentário:</label>
-                <textarea name="comment" cols="1" rows="1"></textarea>
+                <label>Registro da Verificação da Eficácia:</label>
+                <textarea name="comment" cols="41" rows="1"></textarea>
             </div>
         </fieldset>
     </form>

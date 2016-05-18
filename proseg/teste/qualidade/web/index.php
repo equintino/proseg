@@ -39,11 +39,17 @@ final class Index {
             'Flash' => '../flash/Flash.php',
             'NotFoundException' => '../exception/NotFoundException.php',
             'TodoDao' => '../dao/TodoDao.php',
+            'UserDao' => '../dao/UserDao.php',
             'TodoMapper' => '../mapping/TodoMapper.php',
+            'UserMapper' => '../mapping/UserMapper.php',
             'Todo' => '../model/Todo.php',
+            'User' => '../model/User.php',
             'TodoSearchCriteria' => '../dao/TodoSearchCriteria.php',
+            'UserSearchCriteria' => '../dao/UserSearchCriteria.php',
             'TodoValidator' => '../validation/TodoValidator.php',
+            'UserValidator' => '../validation/UserValidator.php',
             'Utils' => '../util/Utils.php',
+            'Utils_user' => '../util/Utils_user.php'
         );
         if (!array_key_exists($name, $classes)) {
             die('Class "' . $name . '" not found.');

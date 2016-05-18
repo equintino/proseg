@@ -12,6 +12,8 @@ final class Todo {
     const STATUS_PENDING = "PENDENTE";
     const STATUS_DONE = "RESOLVIDA";
     const STATUS_VOIDED = "VENCIDO";
+    const STATUS_CANCELADO = "CANCELADO";
+    const ANDAMENTO = 0;
 
     /** @var int */
     private $id;
@@ -46,6 +48,21 @@ final class Todo {
     private $causa;
     private $imediata;
     private $corretiva;
+    private $implementador;
+    private $eliminacao;
+    private $eliminacao_novo;
+    private $reg_eficacia;
+    private $resp_verificacao;
+    private $eficaz_data;
+    private $novo_rnc;
+    private $eficaz;
+    private $andamento;
+    private $nome;
+    private $funcao;
+    private $matricula;
+    private $email;
+    private $setor;
+    private $login;
 
     /**
      * Create new {@link Todo} with default properties set.
@@ -64,6 +81,7 @@ final class Todo {
             self::STATUS_PENDING,
             self::STATUS_DONE,
             self::STATUS_VOIDED,
+            self::STATUS_CANCELADO,
         );
     }
     public static function allPriorities() {
@@ -129,6 +147,20 @@ final class Todo {
     public function setDueOn(DateTime $dueOn) {
         $this->dueOn = $dueOn;
     }
+    public function getEliminacao() {
+        return $this->eliminacao;
+    }
+
+    public function setEliminacao(DateTime $eliminacao) {
+        $this->eliminacao = $eliminacao;
+    }
+    public function getEliminacao_novo() {
+        return $this->eliminacao_novo;
+    }
+
+    public function setEliminacao_novo(DateTime $eliminacao_novo) {
+        $this->eliminacao_novo = $eliminacao_novo;
+    }
     public function getPrazo() {
         return $this->prazo;
     }
@@ -146,6 +178,13 @@ final class Todo {
 
     public function setLastModifiedOn(DateTime $lastModifiedOn) {
         $this->lastModifiedOn = $lastModifiedOn;
+    }
+    public function getEficazData() {
+        return $this->eficaz_data;
+    }
+
+    public function setEficazData(DateTime $eficaz_data) {
+        $this->eficaz_data = $eficaz_data;
     }
 
     /**
@@ -244,6 +283,78 @@ final class Todo {
     }
     public function setCorretiva($corretiva){
         $this->corretiva = $corretiva;
+    }
+    public function getImplementador(){
+        return $this->implementador;
+    }
+    public function setImplementador($implementador){
+        $this->implementador = $implementador;
+    }
+    public function getRegEficacia(){
+        return $this->reg_eficacia;
+    }
+    public function setRegEficacia($reg_eficacia){
+        $this->reg_eficacia = $reg_eficacia;
+    }
+    public function getRespVerificacao(){
+        return $this->resp_verificacao;
+    }
+    public function setRespVerificacao($resp_verificacao){
+        $this->resp_verificacao = $resp_verificacao;
+    }
+    public function getNovoRnc(){
+        return $this->novo_rnc;
+    }
+    public function setNovoRnc($novo_rnc){
+        $this->novo_rnc = $novo_rnc;
+    }
+    public function getEficaz(){
+        return $this->eficaz;
+    }
+    public function setEficaz($eficaz){
+        $this->eficaz = $eficaz;
+    }
+    public function getAndamento(){
+        return $this->andamento;
+    }
+    public function setAndamento($andamento){
+        $this->andamento = $andamento;
+    }
+    public function getNome(){
+        return $this->nome;
+    }
+    public function setNome($nome){
+        $this->nome = $nome;
+    }
+    public function getFuncao(){
+        return $this->funcao;
+    }
+    public function setFuncao($funcao){
+        $this->funcao = $funcao;
+    }
+    public function getMatricula(){
+        return $this->matricula;
+    }
+    public function setMatricula($matricula){
+        $this->matricula = $matricula;
+    }
+    public function getEmail(){
+        return $this->email;
+    }
+    public function setEmail($email){
+        $this->email = $email;
+    }
+    public function getSetor(){
+        return $this->setor;
+    }
+    public function setSetor($setor){
+        $this->setor = $setor;
+    }
+    public function getLogin(){
+        return $this->login;
+    }
+    public function setLogin($login){
+        $this->login = $login;
     }
 
     /**

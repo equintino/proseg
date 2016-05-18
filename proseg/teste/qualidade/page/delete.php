@@ -3,7 +3,7 @@ $todo = Utils::getTodoByGetId();
 
 $dao = new TodoDao();
 $dao->delete($todo->getId());
-Flash::addFlash('TODO deleted successfully.');
+Flash::addFlash('RNC excluído com sucesso.');
 
 Utils::redirect('list', array('status' => $todo->getStatus()));
 
