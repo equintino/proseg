@@ -119,7 +119,7 @@ final class TodoDao {
         return $sql;
     }
     private function getFindSql2(TodoSearchCriteria $search = null) {
-        $sql = 'SELECT * FROM todo WHERE deleted = 0 ';
+        $sql = 'SELECT * FROM todo WHERE 1';
         $orderBy = 'id';
         if ($search !== null) {
             if ($search->getStatus() !== null) {
